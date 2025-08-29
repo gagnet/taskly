@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, View, StyleSheet, Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { theme } from "../theme";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 type Props = {
   name: string;
@@ -42,15 +43,12 @@ export function ShoppingListItem({ name, isCompleted }: Props) {
       >
         {name}
       </Text>
-      <TouchableOpacity
-        style={[
-          styles.button,
-          isCompleted ? styles.completedButton : undefined,
-        ]}
-        onPress={handleDelte}
-        activeOpacity={0.8}
-      >
-        <Text style={[styles.buttonText]}>Delete</Text>
+      <TouchableOpacity onPress={handleDelte}>
+        <AntDesign
+          name="closecircle"
+          size={24}
+          color={isCompleted ? theme.colorGrey : theme.colorRed}
+        />
       </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
