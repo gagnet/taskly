@@ -1,0 +1,28 @@
+import { name } from "eslint-plugin-prettier/recommended";
+import { Link, Stack } from "expo-router";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { theme } from "../../theme";
+
+export default function Layout() {
+  return (
+    <Stack>
+      <Stack.Screen
+        name="index"
+        options={{
+          title: "Counter",
+          headerRight: () => {
+            return (
+              <Link href={}>
+                <MaterialIcons
+                  name="history"
+                  size={32}
+                  color={theme.colorGrey}
+                />
+              </Link>
+            );
+          },
+        }}
+      />
+    </Stack>
+  );
+}
