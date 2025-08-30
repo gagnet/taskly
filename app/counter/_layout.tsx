@@ -2,6 +2,7 @@ import { name } from "eslint-plugin-prettier/recommended";
 import { Link, Stack } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { theme } from "../../theme";
+import { Pressable } from "react-native";
 
 export default function Layout() {
   return (
@@ -12,12 +13,14 @@ export default function Layout() {
           title: "Counter",
           headerRight: () => {
             return (
-              <Link href={}>
-                <MaterialIcons
-                  name="history"
-                  size={32}
-                  color={theme.colorGrey}
-                />
+              <Link href="/counter/history" asChild>
+                <Pressable hitSlop={20}>
+                  <MaterialIcons
+                    name="history"
+                    size={32}
+                    color={theme.colorGrey}
+                  />
+                </Pressable>
               </Link>
             );
           },
