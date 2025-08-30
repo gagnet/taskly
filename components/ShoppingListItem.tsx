@@ -1,15 +1,29 @@
-import { Text, TouchableOpacity, View, StyleSheet, Alert } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Alert,
+  Pressable,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { theme } from "../theme";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Entypo from "@expo/vector-icons/Entypo";
 
 type Props = {
   name: string;
   isCompleted?: boolean;
   onDelete: () => void;
+  onToggleComplete: () => void;
 };
 
-export function ShoppingListItem({ name, isCompleted, onDelete }: Props) {
+export function ShoppingListItem({
+  name,
+  isCompleted,
+  onDelete,
+  onToggleComplete,
+}: Props) {
   const handleDelte = () => {
     Alert.alert(
       `Are you sure you want to delete ${name}?`,
@@ -28,20 +42,28 @@ export function ShoppingListItem({ name, isCompleted, onDelete }: Props) {
     );
   };
   return (
-    <View
+    <Pressable
       style={[
         styles.itemContainer,
         isCompleted ? styles.completedContainer : undefined,
       ]}
+      onPress={onToggleComplete}
     >
-      <Text
-        style={[
-          styles.itemText,
-          isCompleted ? styles.completedText : undefined,
-        ]}
-      >
-        {name}
-      </Text>
+      <View style={styles.row}>
+        <Entypo
+          name={isCompleted ? "check" : "circle"}
+          size={24}
+          color={isCompleted ? theme.colorGrey : theme.colorCerulean}
+        />
+        <Text
+          style={[
+            styles.itemText,
+            isCompleted ? styles.completedText : undefined,
+          ]}
+        >
+          {name}
+        </Text>
+      </View>
       <TouchableOpacity onPress={handleDelte}>
         <AntDesign
           name="closecircle"
@@ -50,7 +72,7 @@ export function ShoppingListItem({ name, isCompleted, onDelete }: Props) {
         />
       </TouchableOpacity>
       <StatusBar style="auto" />
-    </View>
+    </Pressable>
   );
 }
 
@@ -79,6 +101,8 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 18,
     fontWeight: "200",
+    marginLeft: 8,
+    flex: 1,
   },
   completedText: {
     textDecorationLine: "line-through",
@@ -95,5 +119,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textTransform: "uppercase",
     letterSpacing: 1,
+  },
+  row: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
   },
 });
