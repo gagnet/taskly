@@ -18,7 +18,7 @@ type ShoppingListItemType = {
 };
 
 export default function App() {
-  const [shoppingList, setShoppingList] = useState([]);
+  const [shoppingList, setShoppingList] = useState<ShoppingListItemType[]>([]);
   const [value, setValue] = useState<string>();
 
   const handleSubmit = () => {
@@ -30,6 +30,11 @@ export default function App() {
       setShoppingList(newShoppingList);
       setValue(undefined);
     }
+  };
+
+  const handleDelete = (id: string) => {
+    const newShoppingList = shoppingList.filter((item) => item.id !== id);
+    setShoppingList(newShoppingList);
   };
 
   return (
@@ -53,7 +58,12 @@ export default function App() {
           <Text style={styles.listEmptyContainer}>Your List is empty yo</Text>
         </View>
       }
-      renderItem={({ item }) => <ShoppingListItem name={item.name} />}
+      renderItem={({ item }) => (
+        <ShoppingListItem
+          name={item.name}
+          onDelete={() => handleDelete(item.id)}
+        />
+      )}
     ></FlatList>
   );
 }
