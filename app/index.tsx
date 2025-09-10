@@ -15,7 +15,8 @@ import { useState } from "react";
 type ShoppingListItemType = {
   id: string;
   name: string;
-  completedAtTimeStamp?: number;
+  completedAtTimestamp?: number;
+  lastUpdatedTimestamp: number;
 };
 
 export default function App() {
@@ -25,7 +26,7 @@ export default function App() {
   const handleSubmit = () => {
     if (value) {
       const newShoppingList = [
-        { id: new Date().toISOString(), name: value },
+        { id: new Date().toISOString(), name: value, lastUpdatedTimestamp: Date.now() },
         ...shoppingList,
       ];
       setShoppingList(newShoppingList);
@@ -43,7 +44,8 @@ export default function App() {
       if (item.id === id) {
         return {
           ...item,
-          completedAtTimeStamp: item.completedAtTimeStamp
+          lastUpdatedTimestamp: Date.now(),
+          completedAtTimeStamp: item.completedAtTimestamp
             ? undefined
             : Date.now(),
         };
@@ -79,11 +81,33 @@ export default function App() {
           name={item.name}
           onDelete={() => handleDelete(item.id)}
           onToggleComplete={() => handleToggleComplete(item.id)}
-          isCompleted={Boolean(item.completedAtTimeStamp)}
+          isCompleted={Boolean(item.completedAtTimestamp)}
         />
       )}
     ></FlatList>
   );
+}
+
+function orderShoppingList(shoppingList: ShoppingListItemType[]) {
+  return shoppingList.sort((item1, item2) => {
+    if (item1.completedAtTimestamp && item2.completedAtTimestamp) {
+      return item2.completedAtTimestamp - item1.completedAtTimestamp;
+    }
+
+    if (item1.completedAtTimestamp && !item2.completedAtTimestamp) {
+      return 1;
+    }
+
+    if (!item1.completedAtTimestamp && item2.completedAtTimestamp) {
+      return -1;
+    }
+
+    if (!item1.completedAtTimestamp && !item2.completedAtTimestamp) {
+      return item2.lastUpdatedTimestamp - item1.lastUpdatedTimestamp;
+    }
+
+    return 0;
+  });
 }
 
 const styles = StyleSheet.create({
