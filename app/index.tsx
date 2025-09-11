@@ -45,7 +45,7 @@ export default function App() {
         return {
           ...item,
           lastUpdatedTimestamp: Date.now(),
-          completedAtTimeStamp: item.completedAtTimestamp
+          completedAtTimestamp: item.completedAtTimestamp
             ? undefined
             : Date.now(),
         };
@@ -67,7 +67,7 @@ export default function App() {
           returnKeyType="done"
         />
       }
-      data={shoppingList}
+      data={orderShoppingList(shoppingList)}
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
       stickyHeaderIndices={[0]}
